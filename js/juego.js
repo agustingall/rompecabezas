@@ -70,6 +70,12 @@ teóricas: https://www.acamica.com/cursos/254/javascript-manipulando-dom.
 */
 
 function intercambiarPosiciones(filaPos1, columnaPos1, filaPos2, columnaPos2){
+  var aux = grilla[filaPos1][filaPos2];
+  var clon1 = document.getElementById("pieza-" + grilla[filaPos1][columnaPos1]);
+  grilla[filaPos1][columnaPos1] = grilla[filaPos2,columnaPos2];
+  
+  grila[filaPos2][columnaPos2] = aux;
+  var clon2 = grilla[filaPos2][columnaPos2];
 
 }
 

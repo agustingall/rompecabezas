@@ -15,7 +15,7 @@ body {
   background-color: #ffdc73;
   color:#f27d0c;
   font-size: 25px;
-  padding: 20px;
+  padding: 15px;
   text-align: center;
   font-weight: 600;
   border-radius: 10px;
@@ -23,7 +23,7 @@ body {
   }
 
 h1{
-  background-color: #EC6778;
+  background-color: #E55775;
   color: #fff;
   letter-spacing: 11px;
   font-size: 26px;
@@ -31,7 +31,7 @@ h1{
   padding-right: 6px;
 }
 h2{
-  color: #EC6778;
+  color: #E55775;
   font-weight: 600;
 }
 ul {
@@ -56,8 +56,6 @@ li::before {
 .col-40 {
   background: #FFF;
   padding: 30px;
-  color: #000;
-  width: 40%;
 }
 #juego{
   height: 550px;
