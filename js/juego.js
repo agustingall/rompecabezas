@@ -36,6 +36,10 @@ function chequearSiGano(){
 // la hacen los alumnos, pueden mostrar el cartel como prefieran. Pero es importante que usen
 // esta función
 function mostrarCartelGanador(){
+  var cartel = document.getElementById("cartel_ganador");
+  cartel.style.animationName = 'mostrar';
+  cartel.style.animationDuration = '5s';
+  cartel.style.visibility = 'visible';
 }
 
 // Intercambia posiciones grilla y en el DOM
@@ -63,8 +67,8 @@ replaceChild(elem1, elem2): para reemplazar el elem1 por elem2
 y recordar cómo es la estructura de árbol del DOM para entender como cada una de estas
 funciones lo modifica. Esto lo podés ver en las clases
 teóricas: https://www.acamica.com/cursos/254/javascript-manipulando-dom. 
-
 */
+
 function intercambiarPosiciones(filaPos1, columnaPos1, filaPos2, columnaPos2){
 
 }
