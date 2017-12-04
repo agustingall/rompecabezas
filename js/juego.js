@@ -10,6 +10,8 @@ var grilla_ordenada = [
   [4, 5, 6],
   [7, 8, 9]
   ];
+var juego = document.getElementById("juego");
+var piezaVacia = document.getElementById("pieza-9");
 
 /* Estas dos variables son para guardar la posición
 de la pieza vacía. Esta posición comienza siendo la [2, 2]*/
@@ -70,12 +72,19 @@ teóricas: https://www.acamica.com/cursos/254/javascript-manipulando-dom.
 */
 
 function intercambiarPosiciones(filaPos1, columnaPos1, filaPos2, columnaPos2){
-  var aux = grilla[filaPos1][filaPos2];
-  var clon1 = document.getElementById("pieza-" + grilla[filaPos1][columnaPos1]);
-  grilla[filaPos1][columnaPos1] = grilla[filaPos2,columnaPos2];
+  var aux = grilla[filaPos1][columnaPos1]; 
   
-  grila[filaPos2][columnaPos2] = aux;
-  var clon2 = grilla[filaPos2][columnaPos2];
+  
+  grilla[filaPos1][columnaPos1] = grilla[filaPos2][columnaPos2];
+  var elemento1 = document.getElementById("pieza-" + grilla[filaPos1][columnaPos1]);
+  grilla[filaPos2][columnaPos2] = aux;
+  var elemento2 = document.getElementById("pieza-" + grilla[filaPos2][columnaPos2]); 
+  // aux_1 = elemento1.cloneNode(true);
+  // aux_2 = elemento2.cloneNode(true);
+  var clon3 = juego.replaceChild(elemento2, elemento1);
+  juego.appendChild(clon3);
+
+
 
 }
 
@@ -87,7 +96,17 @@ function actualizarPosicionVacia(nuevaFila,nuevaColumna){
 
 // Para chequear si la posicón está dentro de la grilla.
 function posicionValida(fila, columna){
-
+  if (fila <= 2 && columna <= 2 ){
+    if (document.getElementById("pieza-" + grilla[fila][columna]) == piezaVacia) {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  else{
+    return false;
+  }
 }
 
 /* Movimiento de fichas, en este caso la que se mueve 
@@ -103,6 +122,8 @@ function moverEnDireccion(direccion){
   if(direccion == 40){
     nuevaFilaPiezaVacia = filaVacia-1;
     nuevaColumnaPiezaVacia = columnaVacia;
+    intercambiarPosiciones(filaVacia, columnaVacia, nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
+    console.log("a");
   }
   // Intercambia pieza blanca con la pieza que está abajo suyo
   else if (direccion == 38) {

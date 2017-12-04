@@ -65,7 +65,7 @@ li::before {
   text-align: center;
   animation: fadein 2s;
 }
-#juego img{
+#juego img,#juego div{
   box-sizing: border-box;
   border: #6b7783 solid 1px;
   width: 33.33%;
