@@ -74,17 +74,16 @@ teóricas: https://www.acamica.com/cursos/254/javascript-manipulando-dom.
 function intercambiarPosiciones(filaPos1, columnaPos1, filaPos2, columnaPos2){
   var aux = grilla[filaPos1][columnaPos1]; 
   
-  
   grilla[filaPos1][columnaPos1] = grilla[filaPos2][columnaPos2];
   var elemento1 = document.getElementById("pieza-" + grilla[filaPos1][columnaPos1]);
   grilla[filaPos2][columnaPos2] = aux;
   var elemento2 = document.getElementById("pieza-" + grilla[filaPos2][columnaPos2]); 
-  // aux_1 = elemento1.cloneNode(true);
-  // aux_2 = elemento2.cloneNode(true);
-  var clon3 = juego.replaceChild(elemento2, elemento1);
-  juego.appendChild(clon3);
-
-
+   aux_1 = elemento1.cloneNode(true);
+   aux_2 = elemento2.cloneNode(true);
+   juego.replaceChild(aux_2, elemento1);
+   juego.replaceChild(aux_1, elemento2);
+   filaVacia = filaPos2;
+   columnaVacia = columnaPos2;
 
 }
 
@@ -122,23 +121,27 @@ function moverEnDireccion(direccion){
   if(direccion == 40){
     nuevaFilaPiezaVacia = filaVacia-1;
     nuevaColumnaPiezaVacia = columnaVacia;
-    intercambiarPosiciones(filaVacia, columnaVacia, nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
-    console.log("a");
+    intercambiarPosiciones(filaVacia, columnaVacia, filaVacia-1, columnaVacia);
   }
   // Intercambia pieza blanca con la pieza que está abajo suyo
   else if (direccion == 38) {
     nuevaFilaPiezaVacia = filaVacia+1;
     nuevaColumnaPiezaVacia = columnaVacia;
+     intercambiarPosiciones(filaVacia, columnaVacia, filaVacia+1, columnaVacia);
 
   }
   // Intercambia pieza blanca con la pieza que está a su izq
   else if (direccion == 39) {
-    // Completar
+    nuevaFilaPiezaVacia = filaVacia;
+    nuevaColumnaPiezaVacia = columnaVacia-1;
+    intercambiarPosiciones(filaVacia, columnaVacia, filaVacia, columnaVacia-1);
 
   }
   // Intercambia pieza blanca con la pieza que está a su der
   else if (direccion == 37) {
-    // Completar
+    nuevaFilaPiezaVacia = filaVacia;
+    nuevaColumnaPiezaVacia = columnaVacia+1;
+    intercambiarPosiciones(filaVacia, columnaVacia, filaVacia, columnaVacia+1);
   }
 
   /* Se chequea si la nueva posición es válida, si lo es, se intercambia. 
@@ -187,7 +190,7 @@ function capturarTeclas(){
       moverEnDireccion(evento.which);
 
       var gano = chequearSiGano();
-      if(gano){
+      if(false){
         setTimeout(function(){
           mostrarCartelGanador();  
         },500);
@@ -201,7 +204,7 @@ function capturarTeclas(){
 y ejecutando la función para que se capturen las teclas que 
 presiona el usuario */
 function iniciar(){
-  mezclarPiezas(60);
+  //mezclarPiezas(60);
   capturarTeclas();
 }
 
