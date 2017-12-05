@@ -143,7 +143,7 @@ function capturarTeclas(){
 }
 
 function iniciar(){
-  mezclarPiezas(2);
+  mezclarPiezas(60);
   capturarTeclas();
 }
 
