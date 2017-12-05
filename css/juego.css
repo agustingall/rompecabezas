@@ -4,7 +4,7 @@
 body {
   font-family: Arial, sans-serif;
   width: 940px;
-  margin: 1% auto;
+  margin:  auto;
   min-height: 100%;
   background-image: url(../images/adventure.jpg);
 }
@@ -57,6 +57,7 @@ li::before {
   background: #FFF;
   padding: 30px;
 }
+
 #juego{
   height: 550px;
   background-color: teal;

@@ -9,19 +9,15 @@ var grilla_ordenada = [
   [1, 2, 3],
   [4, 5, 6],
   [7, 8, 9]
-  ];
-var juego = document.getElementById("juego");
-var piezaVacia = document.getElementById("pieza-9");
-
-/* Estas dos variables son para guardar la posición
-de la pieza vacía. Esta posición comienza siendo la [2, 2]*/
-var filaVacia = 2;
-var columnaVacia = 2;
-
-
-// Esta función va a chequear si el Rompecabezas est&aacute; en la posición ganadora
+];
+// Acá vamos a ir guardando la posición vacía
+var posicionVacia = {
+  fila:2,
+  columna:2
+};
+var padre = document.getElementById("pieza-9").parentNode;
+// Esta función va a chequear si el Rompecabezas está en la posición ganadora
 function chequearSiGano(){
-
   for(var i=0;i<grilla.length;i++){
     for(var j=0;j<grilla[0].length;j++){
       if (grilla[i][j] != grilla_ordenada[i][j]){
@@ -30,7 +26,6 @@ function chequearSiGano(){
     }
   }
   return true;
-
 }
 
 
@@ -45,73 +40,40 @@ function mostrarCartelGanador(){
 }
 
 // Intercambia posiciones grilla y en el DOM
-/* Esta función puede ser pensada por partes, incluso separarse en dos funciones, para 
-separar el manejo de posición de la grilla y, por otro lado, el manejo del DOM.
-
-1) Lo primero que hay que pensar es como intercambiar dos posiciones en un arreglo de arreglos. 
-Para que tengas en cuenta:
-si queremos intercambiar las posiciones [1,2] con la [0, 0] 
-si hacemos 
-arreglo[1][2] = arreglo[0][0];
-arreglo[0][0] = arreglo[1][2];
-
-En vez de intercambiar esos valores vamos a terminar teniendo en ambas posiciones el mismo valor.
-Se te ocurre cómo solucionar esto con algo temporal?
-
-2) Como segunda parte tenemos que pensar el intercambio en el dom.
-Para eso, tenés que recordar todas las funciones aprendidas en los videos. 
-
-getElementyById: para obtener los elementos que queremos intercambiar
-parentNode: para obtener el padre de un elemento.
-cloneNode: para clonar un elemento 
-replaceChild(elem1, elem2): para reemplazar el elem1 por elem2
-
-y recordar cómo es la estructura de árbol del DOM para entender como cada una de estas
-funciones lo modifica. Esto lo podés ver en las clases
-teóricas: https://www.acamica.com/cursos/254/javascript-manipulando-dom. 
-*/
-
-function intercambiarPosiciones(filaPos1, columnaPos1, filaPos2, columnaPos2){
-  var aux = grilla[filaPos1][columnaPos1]; 
-  
-  grilla[filaPos1][columnaPos1] = grilla[filaPos2][columnaPos2];
-  var elemento1 = document.getElementById("pieza-" + grilla[filaPos1][columnaPos1]);
-  grilla[filaPos2][columnaPos2] = aux;
-  var elemento2 = document.getElementById("pieza-" + grilla[filaPos2][columnaPos2]); 
-   aux_1 = elemento1.cloneNode(true);
-   aux_2 = elemento2.cloneNode(true);
-   juego.replaceChild(aux_2, elemento1);
-   juego.replaceChild(aux_1, elemento2);
-   filaVacia = filaPos2;
-   columnaVacia = columnaPos2;
-
+function intercambiarPosiciones(fila1, columna1, fila2, columna2){
+    var elemento1 = document.getElementById("pieza-" + grilla[fila1][columna1]);
+    var elemento2 = document.getElementById("pieza-" + grilla[fila2][columna2]);
+    var aux_1 = elemento1.cloneNode(true);
+    var aux_2 = elemento2.cloneNode(true)
+    var aux = grilla[fila1][columna1];
+    grilla[fila1][columna1] = grilla[fila2][columna2];
+    grilla[fila2][columna2] = aux;
+    padre.replaceChild(aux_2, elemento1);
+    padre.replaceChild(aux_1, elemento2);
 }
 
 // Actualiza la posición de la pieza vacía
 function actualizarPosicionVacia(nuevaFila,nuevaColumna){
-
+  posicionVacia.fila = nuevaFila;
+  posicionVacia.columna = nuevaColumna;
 }
 
 
 // Para chequear si la posicón está dentro de la grilla.
-function posicionValida(fila, columna){
-  if (fila <= 2 && columna <= 2 ){
-    if (document.getElementById("pieza-" + grilla[fila][columna]) == piezaVacia) {
+function posicionValida(fila, columna){ 
+  if(fila < grilla.length && fila >= 0 ){
+    if(columna < grilla[0].length && columna >= 0){
       return true;
     }
-    else{
-      return false;
-    }
+    else{return false}
   }
-  else{
-    return false;
-  }
+  else{return false;}
 }
+  
 
-/* Movimiento de fichas, en este caso la que se mueve 
-es la blanca intercambiando su posición con otro elemento.
-Las direcciones están dadas por números que representa: 
-arriba, abajo, izquierda, derecha */
+
+// Movimiento de fichas, en este caso la que se mueve es la blanca intercambiando
+// su posición con otro elemento
 function moverEnDireccion(direccion){
 
   var nuevaFilaPiezaVacia;
@@ -119,36 +81,30 @@ function moverEnDireccion(direccion){
 
   // Intercambia pieza blanca con la pieza que está arriba suyo
   if(direccion == 40){
-    nuevaFilaPiezaVacia = filaVacia-1;
-    nuevaColumnaPiezaVacia = columnaVacia;
-    intercambiarPosiciones(filaVacia, columnaVacia, filaVacia-1, columnaVacia);
+    nuevaFilaPiezaVacia = posicionVacia.fila-1;
+    nuevaColumnaPiezaVacia = posicionVacia.columna;
   }
   // Intercambia pieza blanca con la pieza que está abajo suyo
   else if (direccion == 38) {
-    nuevaFilaPiezaVacia = filaVacia+1;
-    nuevaColumnaPiezaVacia = columnaVacia;
-     intercambiarPosiciones(filaVacia, columnaVacia, filaVacia+1, columnaVacia);
+    nuevaFilaPiezaVacia = posicionVacia.fila+1;
+    nuevaColumnaPiezaVacia = posicionVacia.columna;
 
   }
   // Intercambia pieza blanca con la pieza que está a su izq
   else if (direccion == 39) {
-    nuevaFilaPiezaVacia = filaVacia;
-    nuevaColumnaPiezaVacia = columnaVacia-1;
-    intercambiarPosiciones(filaVacia, columnaVacia, filaVacia, columnaVacia-1);
+    nuevaFilaPiezaVacia = posicionVacia.fila;
+    nuevaColumnaPiezaVacia = posicionVacia.columna-1;
 
   }
   // Intercambia pieza blanca con la pieza que está a su der
   else if (direccion == 37) {
-    nuevaFilaPiezaVacia = filaVacia;
-    nuevaColumnaPiezaVacia = columnaVacia+1;
-    intercambiarPosiciones(filaVacia, columnaVacia, filaVacia, columnaVacia+1);
+    nuevaFilaPiezaVacia = posicionVacia.fila;
+    nuevaColumnaPiezaVacia = posicionVacia.columna+1;
   }
 
-  /* Se chequea si la nueva posición es válida, si lo es, se intercambia. 
-   Para que esta parte del código funcione correctamente deberás haber implementado 
-   las funciones posicionValida, intercambiarPosiciones y actualizarPosicionVacia */
+  // Se chequea si la nueva posición es válida, si lo es, se intercambia 
   if (posicionValida(nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia)){
-    intercambiarPosiciones(filaVacia, columnaVacia,
+    intercambiarPosiciones(posicionVacia.fila, posicionVacia.columna,
     nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
     actualizarPosicionVacia(nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
   }
@@ -157,16 +113,7 @@ function moverEnDireccion(direccion){
 
 
 
-/* Las funciones que se encuentran a continuación ya están implementadas.
-No hace falta que entiendas exactamente que es lo que hacen, ya que contienen
-temas aún no vistos. De todas formas, cada una de ellas tiene un comentario
-para que sepas que se está haciendo a grandes rasgos. NO LAS MODIFIQUES a menos que
-entiendas perfectamente lo que estás haciendo! */
-
-
-/* Función que mezcla las piezas del tablero una cantidad de veces dada.
-Se calcula una posición aleatoria y se mueve en esa dirección. De esta forma
-se mezclará todo el tablero. */
+// Extras, ya vienen dadas
 
 function mezclarPiezas(veces){
   if(veces<=0){return;}
@@ -179,18 +126,13 @@ function mezclarPiezas(veces){
   },100);
 }
 
-/* capturarTeclas: Esta función captura las teclas presionadas por el usuario. Javascript
-permite detectar eventos, por ejemplo, cuando una tecla es presionada y en 
-base a eso hacer algo. No es necesario que entiendas como funciona esto ahora, 
-en el futuro ya lo vas a aprender. Por ahora, sólo hay que entender que cuando
-se toca una tecla se hace algo en respuesta, en este caso, un movimiento */
 function capturarTeclas(){
   document.body.onkeydown = (function(evento) {
     if(evento.which == 40 || evento.which == 38 || evento.which == 39 || evento.which == 37){
       moverEnDireccion(evento.which);
 
       var gano = chequearSiGano();
-      if(false){
+      if(gano){
         setTimeout(function(){
           mostrarCartelGanador();  
         },500);
@@ -200,13 +142,10 @@ function capturarTeclas(){
   })
 }
 
-/* Se inicia el rompecabezas mezclando las piezas 60 veces 
-y ejecutando la función para que se capturen las teclas que 
-presiona el usuario */
 function iniciar(){
-  //mezclarPiezas(60);
+  mezclarPiezas(2);
   capturarTeclas();
 }
 
-// Ejecutamos la función iniciar
+
 iniciar();
